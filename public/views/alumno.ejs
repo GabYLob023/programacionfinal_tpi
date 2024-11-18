@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Notas del Alumno</title>
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <!-- DataTables Buttons CSS (para exportar a PDF) -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
+    <!-- Estilos personalizados (si los tienes) -->
+    <link rel="stylesheet" href="./estilos/alumno.css">
+</head>
+<body class="bg-gray-100">
+    <header class="bg-blue-600 text-white p-4">
+        <div class="container mx-auto flex items-center">
+            <img src="/public/img/user.png" alt="Foto de Perfil" class="w-12 h-12 rounded-full mr-4">
+            <h2 class="text-xl font-semibold">Bienvenido, Alumno</h2>
+        </div>
+    </header>
+
+    <div class="container mx-auto my-8">
+        <h1 class="text-2xl font-bold mb-4">Notas del Alumno</h1>
+        <div class="overflow-x-auto">
+            <table id="notasTable" class="min-w-full bg-white">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-2">Materia</th>
+                        <th class="px-4 py-2">1° Informe 1° Cuatrimestre</th>
+                        <th class="px-4 py-2">2° Informe 1° Cuatrimestre</th>
+                        <th class="px-4 py-2">Nota Final 1° Cuatrimestre</th>
+                        <th class="px-4 py-2">1° Informe 2° Cuatrimestre</th>
+                        <th class="px-4 py-2">2° Informe 2° Cuatrimestre</th>
+                        <th class="px-4 py-2">Nota Final 2° Cuatrimestre</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% boletines.forEach(function(boletin) { %>
+                    <tr>
+                        <td class="border px-4 py-2"><%= boletin.nombre_materia %></td>
+                        <td class="border px-4 py-2"><%= boletin.nota_informe1_cuatri1 %></td>
+                        <td class="border px-4 py-2"><%= boletin.nota_informe2_cuatri1 %></td>
+                        <td class="border px-4 py-2"><%= boletin.nota_final_cuatri1 %></td>
+                        <td class="border px-4 py-2"><%= boletin.nota_informe1_cuatri2 %></td>
+                        <td class="border px-4 py-2"><%= boletin.nota_informe2_cuatri2 %></td>
+                        <td class="border px-4 py-2"><%= boletin.nota_final_cuatri2 %></td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <footer class="bg-gray-800 text-white py-4">
+        <div class="container mx-auto flex justify-center space-x-4">
+            <a href="/interfaz.html" class="hover:underline">Inicio</a>
+            <a href="./index.html" class="hover:underline">Ver Mis Notas</a>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <!-- DataTables Buttons JS (para exportar a PDF) -->
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+    <!-- JSZip y pdfmake (requeridos para exportar a Excel y PDF) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.78/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.78/vfs_fonts.js"></script>
+    <!-- Botones de exportación -->
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+    <!-- Inicialización de DataTables -->
+    <script>
+        $(document).ready(function() {
+            $('#notasTable').DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.11.5/i18n/Spanish.json'
+                },
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'pdfHtml5',
+                        text: 'Exportar a PDF',
+                        title: 'Notas del Alumno',
+                        className: 'bg-blue-500 text-white px-4 py-2 rounded'
+                    }
+                ]
+            });
+        });
+    </script>
+</body>
+</html>

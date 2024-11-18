@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Administración</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../estilos/admin.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h1>Panel de Administración</h1>
+            <nav>
+                <button class="tab-button active" onclick="mostrarSeccion('profesores')">Profesores</button>
+                <button class="tab-button" onclick="mostrarSeccion('alumnos')">Alumnos</button>
+                <button class="tab-button" onclick="mostrarSeccion('materias')">Materias</button>
+                <button class="tab-button" onclick="mostrarSeccion('registro')">Registro</button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div id="profesores" class="seccion active">
+            <h2>Gestión de Profesores</h2>
+            <button onclick="agregarProfesor()">Agregar Profesor</button>
+            <div class="profesor-lista">
+                <div class="profesor-entry">
+                    <input type="text" value="Juan Pérez" readonly>
+                    <select>
+                        <option>Presencial</option>
+                        <option>Virtual</option>
+                    </select>
+                    <button onclick="editarProfesor(this)">Editar</button>
+                    <button onclick="eliminarProfesor(this)">Eliminar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="alumnos" class="seccion" style="display: none;">
+            <h2>Gestión de Alumnos</h2>
+            <button onclick="agregarAlumno()">Agregar Alumno</button>
+            <div class="alumno-lista">
+                <div class="alumno-entry">
+                    <input type="text" value="Cristian Licantica" readonly>
+                    <button onclick="editarAlumno(this)">Editar</button>
+                    <button onclick="eliminarAlumno(this)">Eliminar</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="materias" class="seccion" style="display: none;">
+            <h2>Gestión de Materias</h2>
+            <button onclick="agregarMateria()">Agregar Materia</button>
+            <div class="materia-lista">
+                <div class="materia-entry">
+                    <input type="text" value="Matemática" readonly>
+                    <select>
+                        <option>7 1</option>
+                        <option>7 2</option>
+                        <option>7 3</option>
+                    </select>
+                    <input type="text" placeholder="Asignar Profesor" readonly>
+                    <button onclick="editarMateria(this)">Editar</button>
+                    <button onclick="eliminarMateria(this)">Eliminar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección Registro de Usuarios con DataTable -->
+        <div id="registro" class="seccion" style="display: none;">
+            <h2>Registro de Usuarios</h2>
+            <div class="overflow-x-auto">
+                <table id="usuariosTable" class="min-w-full">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2">ID</th>
+                            <th class="px-4 py-2">Usuario</th>
+                            <th class="px-4 py-2">Email</th>
+                            <th class="px-4 py-2">Rol</th>
+                            <th class="px-4 py-2">Nombre Completo</th>
+                            <th class="px-4 py-2">DNI</th>
+                            <th class="px-4 py-2">CUIL</th>
+                            <th class="px-4 py-2">Dirección</th>
+                            <th class="px-4 py-2">Celular</th>
+                            <th class="px-4 py-2">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% usuarios.forEach(function(usuario) { %>
+                        <tr>
+                            <td class="border px-4 py-2"><%= usuario.id_usuario %></td>
+                            <td class="border px-4 py-2"><%= usuario.nombre_usuario %></td>
+                            <td class="border px-4 py-2"><%= usuario.email %></td>
+                            <td class="border px-4 py-2">
+                                <!-- Menú desplegable para asignar rol -->
+                                <select onchange="cambiarRol(<%= usuario.id_usuario %>, this.value)" class="border rounded">
+                                    <option value="1" <%= usuario.id_roles == 1 ? 'selected' : '' %>>Alumnado</option>
+                                    <option value="2" <%= usuario.id_roles == 2 ? 'selected' : '' %>>Alumno</option>
+                                </select>
+                            </td>
+                            <td class="border px-4 py-2"><%= usuario.apellido_nombre %></td>
+                            <td class="border px-4 py-2"><%= usuario.dni %></td>
+                            <td class="border px-4 py-2"><%= usuario.cuil %></td>
+                            <td class="border px-4 py-2"><%= usuario.direccion %></td>
+                            <td class="border px-4 py-2"><%= usuario.celular %></td>
+                            <td class="border px-4 py-2">
+                                <!-- Botón para eliminar usuario -->
+                                <button onclick="eliminarUsuario(<%= usuario.id_usuario %>)" class="text-red-500 ml-2">Eliminar</button>
+                            </td>
+                        </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <!-- Inicialización de DataTables -->
+    <script>
+        $(document).ready(function() {
+            $('#usuariosTable').DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.11.5/i18n/Spanish.json'
+                }
+            });
+        });
+    </script>
+    <!-- Funciones de Acción -->
+    <script>
+        function cambiarRol(id_usuario, id_roles) {
+            fetch('/asignarRol', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id_usuario: id_usuario, id_roles: id_roles }),
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Rol actualizado correctamente.');
+                    location.reload();
+                } else {
+                    alert('Error al actualizar el rol.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al actualizar el rol.');
+            });
+        }
+
+        function eliminarUsuario(id_usuario) {
+            if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
+                fetch('/eliminarUsuario/' + id_usuario, {
+                    method: 'DELETE',
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Usuario eliminado correctamente.');
+                        location.reload();
+                    } else {
+                        alert('Error al eliminar el usuario.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error al eliminar el usuario.');
+                });
+            }
+        }
+    </script>
+    <script src="../JS/admin.js"></script>
+</body>
+</html>

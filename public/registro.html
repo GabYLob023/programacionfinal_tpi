@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Cuenta - Colegio Provincial Dr. Ernesto Guevara</title>
+    <link rel="stylesheet" href="../public/estilos/cuenta.css">
+</head>
+<body>
+    <div class="container">
+        <div class="left-section">
+            <div class="image-placeholder">
+                <img src="/img/guevara.png" alt="Imagen del colegio">
+            </div>
+        </div>
+        <div class="right-section">
+            <div class="register-form">
+                <div class="icon">
+                    <img src="/public/img/user.png" alt="Usuario">
+                </div>
+                <form method="post" action="/validar">
+                    <input type="text" name="apellido_nombre" placeholder="Nombre Completo" required>
+                    <input type="text" name="direccion" placeholder="Direccion" required>
+                    <input type="text" name="celular" placeholder="Celular" required>
+                    <input type="text" name="nombre_usuario" placeholder="Usuario" required>
+                    <input type="password" name="password" placeholder="Contraseña" required>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="text" name="dni" placeholder="DNI" required>
+                    <input type="text" name="cuil" placeholder="CUIL" required>
+                    <button type="submit">Crear Cuenta</button>
+                  </form>
+                <div class="register-links">
+                    <a href="/iniciar.html" class="login-link">Iniciar Sesión</a>
+                </div>
+            </div>
+            <footer>
+                <p>© 2024 Colegio Provincial Ernesto Guevara. Todos los derechos reservados</p>
+                <div class="social-media">
+                    <a href="#"><img src="instagram.png" alt="Instagram"></a>
+                    <a href="#"><img src="facebook.png" alt="Facebook"></a>
+                </div>
+            </footer>
+        </div>
+    </div>
+</body>
+</html>

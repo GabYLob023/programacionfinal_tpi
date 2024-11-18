@@ -1,0 +1,105 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #eef2f5;
+    color: #2c3e50;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #34495e;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.encabezado {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.perfil {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.foto-perfil {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 3px solid #2ecc71;
+}
+
+h1 {
+    text-align: center;
+    margin: 20px 0;
+    color: #34495e;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ecf0f1;
+    text-align: center;
+    padding: 10px;
+}
+
+th {
+    background-color: #34495e;
+    color: white;
+}
+
+td {
+    background-color: #f7f9fa;
+}
+
+tr:hover {
+    background-color: #eaf1f8;
+}
+
+th[colspan="2"] {
+    text-align: center;
+}
+
+/* Estilos del footer */
+footer {
+    background-color: #34495e;
+    padding: 15px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.footer-link {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.footer-link:hover {
+    color: #1abc9c;
+}
